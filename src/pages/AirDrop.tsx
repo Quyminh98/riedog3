@@ -149,13 +149,12 @@ function AirDrop() {
 
   return (
     <main className="bg-[#FFF4E9] tokenAirdrop">
-
       {contextHolder}
       <Container className="pt-[62px] py-[150px] flex flex-col items-center">
         <h3 className="text-center text-[#FFA943] text-[40px] italic font-bold title mb-12">
           $RIE Token Airdrop
         </h3>
-        <div
+        {/* <div
           className="py-[30px] px-[20px] md:py-[30px] md:px-[40px] lg:px-[90px] lg:py-[40px] rounded-[30px]"
           style={{
             backgroundColor: `rgba(197, 110, 30, 0.10)`,
@@ -287,8 +286,8 @@ function AirDrop() {
               </li>
             </ul>
           </div>
-        </div>
-        <div
+        </div> */}
+        {/* <div
           className="bg-[#FFA943] rounded-2xl w-full max-w-[335px] md:max-w-[456px] lg:max-w-[610px] flex flex-col items-center py-5 -mt-8 z-50"
           style={{
             boxShadow: ` 0px 4px 0px 0px #000`,
@@ -311,7 +310,7 @@ function AirDrop() {
               <img src={btnX} alt="" />
             </Button>
           </div>
-        </div>
+        </div> */}
       </Container>
 
 
