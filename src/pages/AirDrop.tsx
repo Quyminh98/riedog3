@@ -1,155 +1,157 @@
-import { Button, Container, Progress } from "../components";
-import { LogoIcon } from "../icons/LogoIcon";
-import { TickIcon } from "../icons/TickIcon";
-import btnTelegram from "../assets/image/btnTelegram.png";
-import btnX from "../assets/image/btnX.png";
-import { Keypair, ParsedAccountData, PublicKey, sendAndConfirmTransaction, Transaction } from "@solana/web3.js";
-import * as web3 from "@solana/web3.js";
-import { TOKEN_PROGRAM_ID, getOrCreateAssociatedTokenAccount, createTransferInstruction } from "@solana/spl-token";
+// import { Button, Container, Progress } from "../components";
+import { Container } from "../components";
+
+// import { LogoIcon } from "../icons/LogoIcon";
+// import { TickIcon } from "../icons/TickIcon";
+// import btnTelegram from "../assets/image/btnTelegram.png";
+// import btnX from "../assets/image/btnX.png";
+// import { Keypair, ParsedAccountData, PublicKey, sendAndConfirmTransaction, Transaction } from "@solana/web3.js";
+// import * as web3 from "@solana/web3.js";
+// import { TOKEN_PROGRAM_ID, getOrCreateAssociatedTokenAccount, createTransferInstruction } from "@solana/spl-token";
 
 import "./styles.css";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { useEffect, useState } from "react";
+// import { useWallet } from "@solana/wallet-adapter-react";
+// import { useEffect, useState } from "react";
 
-import { notification } from 'antd';
+// import { notification } from 'antd';
 
-import { TOKEN_ACCOUNT_AIRDROP, TOKEN_MINT_AIRDROP, TOKEN_MINT_NEEDED, ADMIN_ADDRESS, ADMIN_PRIVATE_KEY, TRANSFER_AMOUNT } from "../constants/constants";
-type NotificationType = 'success' | 'info' | 'warning' | 'error';
+// import { TOKEN_ACCOUNT_AIRDROP, TOKEN_MINT_AIRDROP, TOKEN_MINT_NEEDED, ADMIN_ADDRESS, ADMIN_PRIVATE_KEY, TRANSFER_AMOUNT } from "../constants/constants";
+// type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
-const FROM_KEYPAIR = Keypair.fromSecretKey(new Uint8Array(ADMIN_PRIVATE_KEY));
+// const FROM_KEYPAIR = Keypair.fromSecretKey(new Uint8Array(ADMIN_PRIVATE_KEY));
 
 function AirDrop() {
-  const [api, contextHolder] = notification.useNotification();
-  const [remainingBalnce, setRemaingBalance] = useState(0);
-  const [totalSupply, setTotalSupply] = useState(0);
-  const [isEnoughSol, setIsEnoughSol] = useState(false);
-  const [isHaveToken, setIsHaveToken] = useState(false);
-  const [isClaimed, setIsClaimed] = useState(false)
+  // const [api, contextHolder] = notification.useNotification();
+  // const [remainingBalnce, setRemaingBalance] = useState(0);
+  // const [totalSupply, setTotalSupply] = useState(0);
+  // const [isEnoughSol, setIsEnoughSol] = useState(false);
+  // const [isHaveToken, setIsHaveToken] = useState(false);
+  // const [isClaimed, setIsClaimed] = useState(false)
 
-  const { publicKey } = useWallet();
+  // const { publicKey } = useWallet();
 
-  let connection = new web3.Connection(web3.clusterApiUrl("devnet"), "confirmed");
+  // let connection = new web3.Connection(web3.clusterApiUrl("devnet"), "confirmed");
 
-  useEffect(() => {
-    async function getInfo() {
-      setIsEnoughSol(false)
-      setIsHaveToken(false)
-      const balanceTokenAccount = await connection.getTokenAccountBalance(new PublicKey(TOKEN_ACCOUNT_AIRDROP))
-      const getTotalSupply = await connection.getTokenSupply(new PublicKey(TOKEN_MINT_AIRDROP))
-      if (publicKey) {
-        const filters: web3.GetProgramAccountsFilter[] = [
-          {
-            dataSize: 165,
-          },
-          {
-            memcmp: {
-              offset: 32,
-              bytes: publicKey.toString()
-            }
-          }
-        ]
-        const tokenAccounts = await connection.getParsedProgramAccounts(
-          TOKEN_PROGRAM_ID,
-          { filters }
-        )
-        const accountInfo = tokenAccounts.find((account) => {
-          const parsedAccountInfo = account.account.data;
-          // @ts-ignore
-          return parsedAccountInfo?.parsed?.info?.mint === TOKEN_MINT_NEEDED
-        })
-        // @ts-ignore
-        if (accountInfo?.account.data.parsed?.info.tokenAmount.uiAmount > 0) {
-          setIsHaveToken(true)
-        }
-        // tokenAccounts.forEach((account) => {
-        //   const parsedAccountInfo = account.account.data
-        //   // @ts-ignore
-        //   const mintAddress = parsedAccountInfo?.parsed?.info?.mint
-        //   console.log(parsedAccountInfo)
-        // })
-        const balanceSol = await connection.getBalance(publicKey)
-        if (balanceSol >= 5 * 10 ** 8) {
-          setIsEnoughSol(true)
-        }
-      }
-      if (balanceTokenAccount.value.uiAmount) {
-        setRemaingBalance(balanceTokenAccount.value.uiAmount)
-      }
-      if (getTotalSupply.value.uiAmount) {
-        setTotalSupply(getTotalSupply.value.uiAmount)
-      }
-    }
+  // useEffect(() => {
+  //   async function getInfo() {
+  //     setIsEnoughSol(false)
+  //     setIsHaveToken(false)
+  //     const balanceTokenAccount = await connection.getTokenAccountBalance(new PublicKey(TOKEN_ACCOUNT_AIRDROP))
+  //     const getTotalSupply = await connection.getTokenSupply(new PublicKey(TOKEN_MINT_AIRDROP))
+  //     if (publicKey) {
+  //       const filters: web3.GetProgramAccountsFilter[] = [
+  //         {
+  //           dataSize: 165,
+  //         },
+  //         {
+  //           memcmp: {
+  //             offset: 32,
+  //             bytes: publicKey.toString()
+  //           }
+  //         }
+  //       ]
+  //       const tokenAccounts = await connection.getParsedProgramAccounts(
+  //         TOKEN_PROGRAM_ID,
+  //         { filters }
+  //       )
+  //       const accountInfo = tokenAccounts.find((account) => {
+  //         const parsedAccountInfo = account.account.data;
+  //         // @ts-ignore
+  //         return parsedAccountInfo?.parsed?.info?.mint === TOKEN_MINT_NEEDED
+  //       })
+  //       // @ts-ignore
+  //       if (accountInfo?.account.data.parsed?.info.tokenAmount.uiAmount > 0) {
+  //         setIsHaveToken(true)
+  //       }
+  //       // tokenAccounts.forEach((account) => {
+  //       //   const parsedAccountInfo = account.account.data
+  //       //   // @ts-ignore
+  //       //   const mintAddress = parsedAccountInfo?.parsed?.info?.mint
+  //       //   console.log(parsedAccountInfo)
+  //       // })
+  //       const balanceSol = await connection.getBalance(publicKey)
+  //       if (balanceSol >= 5 * 10 ** 8) {
+  //         setIsEnoughSol(true)
+  //       }
+  //     }
+  //     if (balanceTokenAccount.value.uiAmount) {
+  //       setRemaingBalance(balanceTokenAccount.value.uiAmount)
+  //     }
+  //     if (getTotalSupply.value.uiAmount) {
+  //       setTotalSupply(getTotalSupply.value.uiAmount)
+  //     }
+  //   }
 
-    getInfo()
-  }, [publicKey])
-  const openNotificationWithIcon = (type: NotificationType) => {
-    api[type]({
-      message: 'Transaction Success!🎉 ',
+  //   getInfo()
+  // }, [publicKey])
+  // const openNotificationWithIcon = (type: NotificationType) => {
+  //   api[type]({
+  //     message: 'Transaction Success!🎉 ',
 
-    });
-  };
+  //   });
+  // };
 
-  async function getNumberDecimals(): Promise<number> {
-    const info = await connection.getParsedAccountInfo(new PublicKey(TOKEN_MINT_AIRDROP));
-    const result = (info.value?.data as ParsedAccountData).parsed.info.decimals as number;
-    return result;
-  }
+  // async function getNumberDecimals(): Promise<number> {
+  //   const info = await connection.getParsedAccountInfo(new PublicKey(TOKEN_MINT_AIRDROP));
+  //   const result = (info.value?.data as ParsedAccountData).parsed.info.decimals as number;
+  //   return result;
+  // }
 
-  const handleClaim = async () => {
-    try {
-      console.log(`Sending ${TRANSFER_AMOUNT} ${(TOKEN_MINT_AIRDROP)} from ${ADMIN_ADDRESS} to ${(publicKey?.toString())}.`)
-      //Step 1
-      console.log(`1 - Getting Source Token Account`);
-      let sourceAccount = await getOrCreateAssociatedTokenAccount(
-        connection,
-        FROM_KEYPAIR,
-        new PublicKey(TOKEN_MINT_AIRDROP),
-        FROM_KEYPAIR.publicKey
-      );
-      console.log(`    Source Account: ${sourceAccount.address.toString()}`);
+  // const handleClaim = async () => {
+  //   try {
+  //     console.log(`Sending ${TRANSFER_AMOUNT} ${(TOKEN_MINT_AIRDROP)} from ${ADMIN_ADDRESS} to ${(publicKey?.toString())}.`)
+  //     //Step 1
+  //     console.log(`1 - Getting Source Token Account`);
+  //     let sourceAccount = await getOrCreateAssociatedTokenAccount(
+  //       connection,
+  //       FROM_KEYPAIR,
+  //       new PublicKey(TOKEN_MINT_AIRDROP),
+  //       FROM_KEYPAIR.publicKey
+  //     );
+  //     console.log(`    Source Account: ${sourceAccount.address.toString()}`);
 
-      //Step 2
-      console.log(`2 - Getting Destination Token Account`);
-      let destinationAccount = await getOrCreateAssociatedTokenAccount(
-        connection,
-        FROM_KEYPAIR,
-        new PublicKey(TOKEN_MINT_AIRDROP),
-        // @ts-ignore
-        new PublicKey(publicKey)
-      );
-      console.log(`    Destination Account: ${destinationAccount.address.toString()}`);
-      //Step 3
-      console.log(`3 - Fetching Number of Decimals for Mint: ${TOKEN_MINT_AIRDROP}`);
-      const numberDecimals = await getNumberDecimals()
-      console.log(`    Number of Decimals: ${numberDecimals}`);
-      //Step 4
-      console.log(`4 - Creating and Sending Transaction`);
-      const tx = new Transaction();
-      tx.add(createTransferInstruction(
-        sourceAccount.address,
-        destinationAccount.address,
-        FROM_KEYPAIR.publicKey,
-        TRANSFER_AMOUNT * Math.pow(10, numberDecimals)
-      ))
+  //     //Step 2
+  //     console.log(`2 - Getting Destination Token Account`);
+  //     let destinationAccount = await getOrCreateAssociatedTokenAccount(
+  //       connection,
+  //       FROM_KEYPAIR,
+  //       new PublicKey(TOKEN_MINT_AIRDROP),
+  //       // @ts-ignore
+  //       new PublicKey(publicKey)
+  //     );
+  //     console.log(`    Destination Account: ${destinationAccount.address.toString()}`);
+  //     //Step 3
+  //     console.log(`3 - Fetching Number of Decimals for Mint: ${TOKEN_MINT_AIRDROP}`);
+  //     const numberDecimals = await getNumberDecimals()
+  //     console.log(`    Number of Decimals: ${numberDecimals}`);
+  //     //Step 4
+  //     console.log(`4 - Creating and Sending Transaction`);
+  //     const tx = new Transaction();
+  //     tx.add(createTransferInstruction(
+  //       sourceAccount.address,
+  //       destinationAccount.address,
+  //       FROM_KEYPAIR.publicKey,
+  //       TRANSFER_AMOUNT * Math.pow(10, numberDecimals)
+  //     ))
 
-      const latestBlockHash = await connection.getLatestBlockhash('confirmed');
-      tx.recentBlockhash = await latestBlockHash.blockhash;
-      const signature = await sendAndConfirmTransaction(connection, tx, [FROM_KEYPAIR]);
-      console.log(
-        '\x1b[32m',
-        `   Transaction Success!🎉`,
-        `\n    https://explorer.solana.com/tx/${signature}?cluster=devnet`
-      );
-      setIsClaimed(true)
-      openNotificationWithIcon('success')
-    } catch (err) {
-      console.error(err)
-    }
-  }
+  //     const latestBlockHash = await connection.getLatestBlockhash('confirmed');
+  //     tx.recentBlockhash = await latestBlockHash.blockhash;
+  //     const signature = await sendAndConfirmTransaction(connection, tx, [FROM_KEYPAIR]);
+  //     console.log(
+  //       '\x1b[32m',
+  //       `   Transaction Success!🎉`,
+  //       `\n    https://explorer.solana.com/tx/${signature}?cluster=devnet`
+  //     );
+  //     setIsClaimed(true)
+  //     openNotificationWithIcon('success')
+  //   } catch (err) {
+  //     console.error(err)
+  //   }
+  // }
 
   return (
     <main className="bg-[#FFF4E9] tokenAirdrop">
-      {contextHolder}
+      {/* {contextHolder} */}
       <Container className="pt-[62px] py-[150px] flex flex-col items-center">
         <h3 className="text-center text-[#FFA943] text-[40px] italic font-bold title mb-12">
           $RIE Token Airdrop
